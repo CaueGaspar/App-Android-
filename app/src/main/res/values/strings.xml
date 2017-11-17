@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="teste">teste</string>
+    <string name="action_settings">Settings</string>
+    <string name="vacation_home">Vacation Home</string>
+    <string name="sign_in">SIGN IN</string>
+</resources>
