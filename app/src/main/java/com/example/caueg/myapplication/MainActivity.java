@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editNome, editDocumento, editEmail, aditTelefone, editEndereco, editSenha, editConfSenha;
     private RadioGroup radioGroup;
     private RadioButton radioRg, radioCpf;
-    private Button btEnviar, btCadstrar;
+    private Button btEnviar, btCadstrado;
     private ImageView imageFoto;
     private ClienteDao clienteDao;
     private Cliente cliente;
@@ -40,23 +40,27 @@ public class MainActivity extends AppCompatActivity {
         clienteDao = new ClienteDao(this);
         cliente = new Cliente();
 
-        editNome = findViewById(R.id.nome);
-        editDocumento = findViewById(R.id.ndoc);
-        editEmail = findViewById(R.id.email);
-        aditTelefone = findViewById(R.id.telefone);
-        editEndereco = findViewById(R.id.endereco);
-        editSenha = findViewById(R.id.senha);
-        editConfSenha = findViewById(R.id.confSenha);
-        radioGroup = findViewById(R.id.rgroup);
-        radioRg = findViewById(R.id.rg);
-        radioCpf = findViewById(R.id.cpf);
-        btEnviar = findViewById(R.id.btnEnviar);
-        btCadstrar = findViewById(R.id.btnCadastrado);
-        imageFoto = findViewById(R.id.imgUsu);
+        editNome       = findViewById(R.id.nome);
+        editDocumento  = findViewById(R.id.ndoc);
+        editEmail      = findViewById(R.id.email);
+        aditTelefone   = findViewById(R.id.telefone);
+        editEndereco   = findViewById(R.id.endereco);
+        editSenha      = findViewById(R.id.senha);
+        editConfSenha  = findViewById(R.id.confSenha);
+        radioCpf       = findViewById(R.id.cpf);
+        radioRg        = findViewById(R.id.rg);
+        radioGroup     = findViewById(R.id.rgroup);
+        radioRg        = findViewById(R.id.rg);
+        radioCpf       = findViewById(R.id.cpf);
+        btEnviar       = findViewById(R.id.btnEnviar);
+        btCadstrado    = findViewById(R.id.btnCadastrado);
+        imageFoto      = findViewById(R.id.imgUsu);
+
+
+
         btEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (!editNome.getText().toString().equals("")
                         && !editDocumento.getText().toString().equals("")
                         && !editEmail.getText().toString().equals("")
@@ -80,32 +84,30 @@ public class MainActivity extends AppCompatActivity {
                     public void onCheckedChanged(RadioGroup radioGroup, int i) {
                         RadioButton radioButton = (RadioButton) radioGroup.getChildAt(i);
 
-                        if(radioButton.getText().toString().equals("CPF")){
+                        if (radioButton.getText().toString().equals(radioCpf)) {
                             cliente.setFlagDoc(0);
-                        }else{
+                        } else {
                             cliente.setFlagDoc(1);
                         }
                     }
                 });
 
 
-                try{
+                try {
                     clienteDao.incluir(cliente);
                     limpar();
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    Toast.makeText(MainActivity.this, "Usuário cadastrado com sucesso",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Usuário cadastrado com sucesso", Toast.LENGTH_SHORT).show();
                     finish();
-                }
-
-                catch (Exception e){
-                    Toast.makeText(MainActivity.this, e.getMessage(),Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
 
-        btCadstrar.setOnClickListener(new View.OnClickListener() {
+        btCadstrado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -136,12 +138,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void limpar(){
+    private void limpar() {
         editNome.setText("");
         editSenha.setText("");
         editConfSenha.setText("");
         editEndereco.setText("");
         editEmail.setText("");
         editDocumento.setText("");
+        aditTelefone.setText("");
     }
 }

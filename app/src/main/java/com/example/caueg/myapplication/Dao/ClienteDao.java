@@ -7,18 +7,22 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.caueg.myapplication.Model.Cliente;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by caueg on 16/11/2017.
  */
 
 public class ClienteDao {
 
-    private SQLiteDatabase database;
+    private SQLiteDatabase database; // SQLiteDatabase é Responsavel pela manutenção dos dados
     private DataBaseHelper helper;
 
     public ClienteDao(Context context) {
         helper = new DataBaseHelper(context);
     }
+
 
     public SQLiteDatabase getDatabase() {
 
@@ -28,6 +32,7 @@ public class ClienteDao {
         return database;
     }
 
+
     public void close() {
         helper.close();
         if (database != null && database.isOpen())
@@ -36,9 +41,9 @@ public class ClienteDao {
 
     public long incluir(Cliente c) {
 
-        ContentValues values = new ContentValues();
+        ContentValues values = new ContentValues(); // ContentValues classe queecebe os valores que serao enviados para a base de dados
 
-        values.put("nome", c.getNome());
+        values.put("nome", c.getNome());  // put recebe o nome do campo da tabela, seguido pelo valor
         values.put("numDoc", c.getNumDoc());
         values.put("email", c.getEmail());
         values.put("endereco", c.getEndereco());
@@ -50,17 +55,39 @@ public class ClienteDao {
         return getDatabase().insert("cliente", null, values);
     }
 
+    public int atualizar(Cliente c) {
+        ContentValues values = new ContentValues(); // ContentValues classe queecebe os valores que serao enviados para a base de dados
+
+        values.put("nome", c.getNome());  // put recebe o nome do campo da tabela, seguido pelo valor
+        values.put("numDoc", c.getNumDoc());
+        values.put("email", c.getEmail());
+        values.put("endereco", c.getEndereco());
+        values.put("telefone", c.getTelefone());
+        values.put("senha", c.getSenha());
+        values.put("foto", c.getFoto());
+        values.put("flagDoc", c.getFlagDoc());
+
+        String[] parametros = new String[1];
+        parametros[0] = String.valueOf(c.getId());
+
+        return getDatabase().update("Cliente", values, "id = ?",parametros);
+    }
+
+    public int excluir(int id){
+
+        String[] parametros = new String[1];
+        parametros[0] = String.valueOf(id);
+
+        return getDatabase().delete("Cliente","id = ?",parametros);
+    }
+
+
     public Cliente autenticacao(String usuario, String senha) {
+
         Cliente c = new Cliente();
-
-        String select = "select * from cliente";
-
+        String select = "select * from cliente where nome = " + "'" + usuario + "'" + " and senha = " + "'" + senha + "'";
         String[] parameters = new String[]{usuario, senha};
-
         Cursor cursor = getDatabase().rawQuery(select, null);
-
-        //Cursor cursor = getDatabase().query("cliente", new String[]{"nome", "telefone", "endereco", "numDoc", "email"},
-        //"nome = ? and senha = ?", new String[]{usuario, senha}, null, null, null);
 
         try {
             while (cursor.moveToNext()) {
@@ -78,4 +105,6 @@ public class ClienteDao {
 
         return c;
     }
+
+
 }

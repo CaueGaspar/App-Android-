@@ -42,20 +42,23 @@ public class LoginActivity extends AppCompatActivity {
                 if (!editNome.getText().toString().equals("")
                         && !editSenha.getText().toString().equals("")) {
 
-                    if (cliente != null) {
+
+                    try {
                         cliente = clienteDao.autenticacao(editNome.getText().toString(), editSenha.getText().toString());
-
-                        startActivity(new Intent(LoginActivity.this, PrincipalActivity.class));
-
-
+                    } catch (Exception e) {
+                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    if (cliente.getId() == 0) {
+                        Intent intent = new Intent(LoginActivity.this, PrincipalActivity.class);
+                        intent.putExtra("cliente", cliente);
+                        startActivity(intent);
                     } else {
-                        Toast.makeText(LoginActivity.this, "Usário ou senha incorretos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
                     Toast.makeText(LoginActivity.this, "Preecha Todos os campos", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }

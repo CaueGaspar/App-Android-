@@ -14,6 +14,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
 
     public DataBaseHelper(Context context) {
+
         super(context, BANCO_DADOS, null, VERSAO);
     }
 
