@@ -7,16 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.caueg.myapplication.Model.Cliente;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by caueg on 16/11/2017.
  */
 
 public class ClienteDao {
 
-    private SQLiteDatabase database; // SQLiteDatabase é Responsavel pela manutenção dos dados
+    public SQLiteDatabase database; // SQLiteDatabase é Responsavel pela manutenção dos dados
     private DataBaseHelper helper;
 
     public ClienteDao(Context context) {
@@ -70,15 +67,20 @@ public class ClienteDao {
         String[] parametros = new String[1];
         parametros[0] = String.valueOf(c.getId());
 
-        return getDatabase().update("Cliente", values, "id = ?",parametros);
+        return getDatabase().update("Cliente", values, "id = ?", parametros);
     }
 
-    public int excluir(int id){
+    public void excluir(int id) {
 
-        String[] parametros = new String[1];
-        parametros[0] = String.valueOf(id);
+        try {
+            String delete = "delete from cliente where id =  " + "'" + id + "'" + "";
+            String[] parameters = new String[]{String.valueOf(id)};
+            parameters[0] = String.valueOf(id);
 
-        return getDatabase().delete("Cliente","id = ?",parametros);
+            getDatabase().delete("cliente", "id = ?", parameters);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -91,6 +93,7 @@ public class ClienteDao {
 
         try {
             while (cursor.moveToNext()) {
+                c.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 c.setNome(cursor.getString(cursor.getColumnIndex("nome")));
                 c.setTelefone(cursor.getString((cursor.getColumnIndex("telefone"))));
                 c.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));

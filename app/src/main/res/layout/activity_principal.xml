@@ -46,12 +46,10 @@
         android:layout_height="wrap_content"
         android:hint="Endereço" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btnExcluir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
+        android:text="Excluir" />
 </LinearLayout>
 
